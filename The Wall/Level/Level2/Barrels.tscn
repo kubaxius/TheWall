@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://UsableObject/UsableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Level2/sprites/barrels.png" type="Texture" id=2]
+[ext_resource path="res://Level/Level2/sprites/lamp.png" type="Texture" id=3]
+[ext_resource path="res://Level/Level2/animations/DropLamp.anim" type="Animation" id=4]
+[ext_resource path="res://Level/Level2/barrels.gd" type="Script" id=5]
+[ext_resource path="res://Level/Level2/sprites/boom.png" type="Texture" id=6]
+
+[node name="Barrels" instance=ExtResource( 1 )]
+script = ExtResource( 5 )
+
+[node name="barrels" type="Sprite" parent="." index="0"]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0, -348 )
+
+[node name="lamp" type="Sprite" parent="CollisionShape2D" index="0"]
+light_mask = 4
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+anims/DropLamp = ExtResource( 4 )
+
+[node name="boom" type="Sprite" parent="." index="3"]
+visible = false
+position = Vector2( -2, 3 )
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 6 )

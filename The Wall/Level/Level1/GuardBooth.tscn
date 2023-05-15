@@ -1,0 +1,111 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://UsableObject/UsableObject.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/Door.PNG" type="Texture" id=2]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/Booth.PNG" type="Texture" id=3]
+[ext_resource path="res://Player/sprites/Body.PNG" type="Texture" id=4]
+[ext_resource path="res://Player/sprites/Hand.PNG" type="Texture" id=5]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/helmet.PNG" type="Texture" id=6]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/weapon.PNG" type="Texture" id=7]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/back.PNG" type="Texture" id=8]
+[ext_resource path="res://Player/sprites/Head.PNG" type="Texture" id=9]
+[ext_resource path="res://Level/Level1/sprites/guard_booth/mask.png" type="Texture" id=10]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://UsableObject/usable_object.gd\"
+
+onready var player = get_tree().get_nodes_in_group(\"PLAYER\")[0]
+
+func _ready():
+	player.get_node(\"AnimationPlayer\").connect(\"animation_finished\", self, \"hit\")
+
+func use():
+	player.get_node(\"AnimationPlayer\").play(\"Hit\")
+	yield(get_tree().create_timer(1.2), \"timeout\")
+	$AnimationPlayer.play(\"OpenClose\")
+	player.get_node(\"AnimationPlayer\").play(\"HandsUp\")
+	yield($AnimationPlayer, \"animation_finished\")
+	.use()
+
+#func hit(name):
+#	print(name)
+#	$AnimationPlayer.play(\"OpenClose\")
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 49, 78 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "OpenClose"
+length = 2.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1.3, 2.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -28 ), Vector2( 0, -123 ), Vector2( 0, -123 ), Vector2( 0, -28 ) ]
+}
+
+[node name="GuardBooth" instance=ExtResource( 1 )]
+script = SubResource( 1 )
+
+[node name="Guard" type="Node2D" parent="." index="0"]
+position = Vector2( 31, -6 )
+
+[node name="Body" type="Sprite" parent="Guard" index="0"]
+position = Vector2( 0, 53 )
+z_index = -1
+texture = ExtResource( 4 )
+
+[node name="Head" type="Sprite" parent="Guard" index="1"]
+position = Vector2( 0, -16 )
+texture = ExtResource( 9 )
+
+[node name="helmet" type="Sprite" parent="Guard" index="2"]
+position = Vector2( 0, -23 )
+texture = ExtResource( 6 )
+
+[node name="weapon" type="Sprite" parent="Guard" index="3"]
+position = Vector2( -35, 19 )
+texture = ExtResource( 7 )
+
+[node name="Hand2" type="Sprite" parent="Guard/weapon" index="0"]
+position = Vector2( -13, -9 )
+texture = ExtResource( 5 )
+
+[node name="Hand" type="Sprite" parent="Guard/weapon" index="1"]
+position = Vector2( 16, 0 )
+z_index = -1
+texture = ExtResource( 5 )
+
+[node name="back" type="Sprite" parent="." index="1"]
+position = Vector2( 1, -26 )
+z_index = -2
+texture = ExtResource( 8 )
+
+[node name="guard_booth" type="Sprite" parent="." index="2"]
+z_index = 1
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="." index="3"]
+position = Vector2( 0, -6 )
+shape = SubResource( 2 )
+
+[node name="Door" type="Sprite" parent="." index="4"]
+light_mask = 16
+position = Vector2( 0, -28 )
+texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+anims/OpenClose = SubResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="." index="6"]
+position = Vector2( 3, -109 )
+texture = ExtResource( 10 )
+mode = 3
+range_item_cull_mask = 16

@@ -1,0 +1,118 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Level/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Level2/Barrels.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Level/Level3/Level3.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Brick/Brick.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/HairSide.PNG" type="Texture" id=5]
+[ext_resource path="res://Level/Level2/Hole1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/HairBack.PNG" type="Texture" id=7]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/BodySide.PNG" type="Texture" id=8]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/BodyFront.PNG" type="Texture" id=9]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/HairFront-Back.PNG" type="Texture" id=10]
+[ext_resource path="res://Player/sprites/Player/BodyFemale/HairFront-Front.PNG" type="Texture" id=11]
+[ext_resource path="res://Level/Shelf1.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Player/sprites/Player/BodyMale/BodyFront.PNG" type="Texture" id=13]
+[ext_resource path="res://Player/sprites/Player/Head.PNG" type="Texture" id=14]
+[ext_resource path="res://Player/sprites/Player/Hand.PNG" type="Texture" id=15]
+[ext_resource path="res://Player/sprites/Player/BodyMale/HairFront.PNG" type="Texture" id=16]
+[ext_resource path="res://Level/Level1/Gate.tscn" type="PackedScene" id=17]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+
+[node name="Level2" instance=ExtResource( 1 )]
+next_scene = ExtResource( 3 )
+
+[node name="Player" parent="." index="0"]
+position = Vector2( 1031.13, -1766.04 )
+
+[node name="HairFront" parent="Player/HairSprites" index="0"]
+texture = ExtResource( 11 )
+
+[node name="HairFront-Back" type="Sprite" parent="Player/HairSprites/HairFront" index="0"]
+position = Vector2( 0.046356, 16.27 )
+z_index = -1
+texture = ExtResource( 10 )
+
+[node name="HairSide" parent="Player/HairSprites" index="1"]
+position = Vector2( 0, 12 )
+texture = ExtResource( 5 )
+
+[node name="HairBack" parent="Player/HairSprites" index="2"]
+position = Vector2( 0, 7.5 )
+texture = ExtResource( 7 )
+
+[node name="BodySide" parent="Player/BodySprites" index="0"]
+texture = ExtResource( 8 )
+
+[node name="BodyFront" parent="Player/BodySprites" index="1"]
+texture = ExtResource( 9 )
+
+[node name="AnimationTree" parent="Player" index="10"]
+parameters/playback = SubResource( 1 )
+
+[node name="Barrels" parent="." index="4" instance=ExtResource( 2 )]
+position = Vector2( -690.332, -1958.68 )
+rotation = -0.349066
+
+[node name="Bricks" type="Node2D" parent="." index="5"]
+
+[node name="Brick" parent="Bricks" index="0" instance=ExtResource( 4 )]
+position = Vector2( -183.112, -2106.73 )
+rotation = -0.0866998
+
+[node name="Brick2" parent="Bricks" index="1" instance=ExtResource( 4 )]
+position = Vector2( -281.275, -2155.81 )
+rotation = -0.12974
+
+[node name="Brick3" parent="Bricks" index="2" instance=ExtResource( 4 )]
+position = Vector2( -351.121, -2230.62 )
+rotation = -0.156128
+
+[node name="Brick4" parent="Bricks" index="3" instance=ExtResource( 4 )]
+position = Vector2( -477.177, -2265.11 )
+rotation = -0.207628
+
+[node name="Brick5" parent="Bricks" index="4" instance=ExtResource( 4 )]
+position = Vector2( -591.341, -2330.51 )
+rotation = -0.248495
+
+[node name="Shelf1" parent="Bricks" index="5" instance=ExtResource( 12 )]
+position = Vector2( -724.227, -2234.52 )
+rotation = -0.375726
+
+[node name="Hole1" parent="." index="6" instance=ExtResource( 6 )]
+position = Vector2( -1122.99, -1838.27 )
+
+[node name="Gate" parent="." index="7" instance=ExtResource( 17 )]
+position = Vector2( 1218.57, -1623.76 )
+rotation = 0.6364
+
+[node name="Man" type="Node2D" parent="Gate" index="3"]
+position = Vector2( 4.94977, -1.41406 )
+z_index = -3
+
+[node name="BodyFront" type="Sprite" parent="Gate/Man" index="0"]
+position = Vector2( 49.0074, 21.8802 )
+texture = ExtResource( 13 )
+
+[node name="Head" type="Sprite" parent="Gate/Man" index="1"]
+position = Vector2( 49.0075, -42.4666 )
+texture = ExtResource( 14 )
+
+[node name="HairFront" type="Sprite" parent="Gate/Man/Head" index="0"]
+position = Vector2( -3.05176e-05, -9.89966 )
+texture = ExtResource( 16 )
+
+[node name="Hand" type="Sprite" parent="Gate/Man" index="2"]
+position = Vector2( 73.0491, 2.08105 )
+z_as_relative = false
+texture = ExtResource( 15 )
+
+[node name="Hand2" type="Sprite" parent="Gate/Man" index="3"]
+position = Vector2( 22.8445, 1.37402 )
+z_as_relative = false
+texture = ExtResource( 15 )
+[connection signal="used" from="Barrels" to="." method="load_next_level"]
+
+[editable path="Player"]

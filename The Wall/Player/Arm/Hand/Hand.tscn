@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Player/Arm/Hand/states/Free.gd" type="Script" id=1]
+[ext_resource path="res://Player/Arm/Hand/states/Gripping.gd" type="Script" id=2]
+[ext_resource path="res://Player/Arm/Hand/hand.gd" type="Script" id=3]
+[ext_resource path="res://Player/Arm/Hand/states/Controled.gd" type="Script" id=4]
+[ext_resource path="res://utils/StateMachine/state_machine.gd" type="Script" id=5]
+[ext_resource path="res://Player/sprites/Player/Hand.PNG" type="Texture" id=6]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.20663
+height = 8.00855
+
+[node name="Hand" type="KinematicBody2D"]
+collision_layer = 32
+collision_mask = 4
+script = ExtResource( 3 )
+
+[node name="Hand" type="Sprite" parent="."]
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.57079
+shape = SubResource( 1 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 5 )
+physics_processing = true
+standard_processing = true
+process_input = true
+initial_state = NodePath("Free")
+
+[node name="Free" type="Node" parent="StateMachine"]
+script = ExtResource( 1 )
+
+[node name="Controlled" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+
+[node name="Gripping" type="Node" parent="StateMachine"]
+script = ExtResource( 2 )
